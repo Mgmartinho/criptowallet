@@ -48,6 +48,29 @@ const Home = () => {
               <span>1.20</span>
             </td>
           </tr>
+
+          <tr className={styles.tr}>
+            <td className={styles.tdLabel} data-Label="Moeda">
+              <div className={styles.name}>
+                <Link to={"/details/bitcoin"}>
+                  <span>Etheriun</span> | ETH
+                </Link>
+              </div>
+            </td>
+            <td className={styles.tdLabel} data-Label="Valor mercado">
+              16.000
+            </td>
+            <td className={styles.tdLabel} data-Label="Preço">
+              3.500
+            </td>
+            <td className={styles.tdLabel} data-Label="Volume">
+              5M
+            </td>
+            <td className={styles.tdLoss} data-Label="Mudança 24h">
+              <span>-4.79</span>
+            </td>
+          </tr>
+
         </tbody>
       </table>
     </main>
