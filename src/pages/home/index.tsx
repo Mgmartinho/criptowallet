@@ -130,8 +130,8 @@ const Home = () => {
             <td className={styles.tdLabel} data-Label="Volume">
               {item.formatedVolume}
             </td>
-            <td className={styles.tdProfit} data-Label="Mudança 24h">
-              <span>{item.changePercent24Hr}</span>
+            <td className={Number(item.changePercent24Hr) > 0 ? styles.tdProfit : styles.tdLoss} data-Label="Mudança 24h">
+              <span>{Number(item.changePercent24Hr)}</span>
             </td>
           </tr>
          ))}
