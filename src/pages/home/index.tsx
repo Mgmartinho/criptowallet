@@ -17,6 +17,9 @@ interface coinProps{
   marketCapUsd: string;
   volumeUsd24Hr: string;
   explorer: string;
+  formatedPrice?: string;
+  formatedVolume?: string;
+  formatedMarket?: string;
 }
 
 interface dataProps{
@@ -27,7 +30,7 @@ const Home = () => {
 
   const [search, setSearch] = useState("");
   const navigate =useNavigate();
-  //const [coins,setCoins] = useState([]);
+  const [coins, setCoins] = useState<coinProps[]>([]);
 
   useEffect(() => {
     getData();
@@ -39,16 +42,29 @@ const Home = () => {
     .then((data: dataProps) => {
       const coinsData = data.data;
 
+      const price = Intl.NumberFormat("en-US",{
+        style: "currency",
+        currency: "USD"
+      })
+
+      const priceCompact = Intl.NumberFormat("en-US",{
+        style: "currency",
+        currency: "USD",
+        notation: "compact"
+      })
+
       const formatedResult = coinsData.map((item) => {
         const formated = {
           ...item, 
-          nome: "MARTINHO",
+          formatedPrice: price.format(Number(item.priceUsd)),
+          formatedMarket: priceCompact.format(Number(item.marketCapUsd)),
+          formatedVolume: priceCompact.format(Number(item.volumeUsd24Hr))
         
         }
         return formated;
       })
 
-      console.log(formatedResult); 
+      setCoins(formatedResult);
 
       
 
@@ -96,49 +112,30 @@ const Home = () => {
           </tr>
         </thead>
         <tbody id="tbody">
-          <tr className={styles.tr}>
+         {coins.length > 0 && coins.map((item) => (
+          <tr className={styles.tr} key={item.id}>
             <td className={styles.tdLabel} data-Label="Moeda">
               <div className={styles.name}>
-                <Link to={"/details/bitcoin"}>
-                  <span>Bitcoin</span> | BTC
+                <Link to={`/detail/${item.id}`}>
+                  <span>{item.name}</span> | {item.supply}
                 </Link>
               </div>
             </td>
             <td className={styles.tdLabel} data-Label="Valor mercado">
-              1T
+              {item.formatedMarket}
             </td>
             <td className={styles.tdLabel} data-Label="Preço">
-              8.000
+              {item.formatedPrice}
             </td>
             <td className={styles.tdLabel} data-Label="Volume">
-              2.2B
+              {item.formatedVolume}
             </td>
             <td className={styles.tdProfit} data-Label="Mudança 24h">
-              <span>1.20</span>
+              <span>{item.changePercent24Hr}</span>
             </td>
           </tr>
+         ))}
 
-          <tr className={styles.tr}>
-            <td className={styles.tdLabel} data-Label="Moeda">
-              <div className={styles.name}>
-                <Link to={"/details/bitcoin"}>
-                  <span>Etheriun</span> | ETH
-                </Link>
-              </div>
-            </td>
-            <td className={styles.tdLabel} data-Label="Valor mercado">
-              16.000
-            </td>
-            <td className={styles.tdLabel} data-Label="Preço">
-              3.500
-            </td>
-            <td className={styles.tdLabel} data-Label="Volume">
-              5M
-            </td>
-            <td className={styles.tdLoss} data-Label="Mudança 24h">
-              <span>-4.79</span>
-            </td>
-          </tr>
 
         </tbody>
       </table>
