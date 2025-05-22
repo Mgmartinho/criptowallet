@@ -2,14 +2,58 @@
 import styles from "./home.module.css";
 import { BsSearch } from "react-icons/bs";
 import { Link,useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+interface coinProps{
+  id: string;
+  name: string;
+  symbol: string;
+  priceUsd: string;
+  vwap24Hr: string;
+  changePercent24Hr: string;
+  rank: string;
+  supply: string;
+  maxSupply: string;
+  marketCapUsd: string;
+  volumeUsd24Hr: string;
+  explorer: string;
+}
+
+interface dataProps{
+  data: coinProps[];
+}
 
 const Home = () => {
 
   const [search, setSearch] = useState("");
   const navigate =useNavigate();
+  //const [coins,setCoins] = useState([]);
 
+  useEffect(() => {
+    getData();
+  },[]);
 
+  async function getData(){
+    fetch("https://api.coincap.io/v2/assets?limit-10&offset=0")
+    .then(response => response.json())
+    .then((data: dataProps) => {
+      const coinsData = data.data;
+
+      const formatedResult = coinsData.map((item) => {
+        const formated = {
+          ...item, 
+          nome: "MARTINHO",
+        
+        }
+        return formated;
+      })
+
+      console.log(formatedResult); 
+
+      
+
+    })
+  }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
