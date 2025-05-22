@@ -115,7 +115,7 @@ const Home = () => {
                       className={styles.logo}
                     />
                     <Link to={`/detail/${item.id}`}>
-                      <span>{item.name}</span> | {item.supply}
+                      <span>{item.name}</span> | {item.symbol}
                     </Link>
                   </div>
                 </td>
