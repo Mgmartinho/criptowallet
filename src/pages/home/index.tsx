@@ -26,15 +26,16 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const [coins, setCoins] = useState<coinProps[]>([]);
+  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [offset]);
 
   async function getData() {
     const apiKey =
       "b576a8993367f2d7a903a2c5d453a54510270d68fc57e8a1eeab5abca7d61534";
-    const url = `https://rest.coincap.io/v3/assets?limit=10&offset=0`;
+    const url = `https://rest.coincap.io/v3/assets?limit=10&offset=${offset}`;
 
     const response = await fetch(url, {
       headers: {
@@ -63,7 +64,8 @@ const Home = () => {
       formatedVolume: priceCompact.format(Number(item.volumeUsd24Hr)),
     }));
 
-    setCoins(formatedResult);
+    const listCoins = [...coins, ...formatedResult];
+    setCoins(listCoins);
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -76,7 +78,11 @@ const Home = () => {
   }
 
   function handleGetMore() {
-    alert("Testes");
+    if(offset === 0){
+      setOffset(10);
+      return
+    }
+    setOffset(offset + 10);
   }
 
   return (
