@@ -3,7 +3,7 @@ import { BsSearch } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-interface coinProps {
+export interface coinProps {
   id: string;
   name: string;
   symbol: string;
